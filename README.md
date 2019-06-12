@@ -6,10 +6,6 @@ npm i -> npm run dev
 Start live server and go into /swagger and voila Swagger is showing
 ```
 
-## TODO 
-´´´
--
-´´´
 
 Homenet is the new site for selling your house, condo or other properties:
 This API has been blatlantly stolen from our biggest competitor hemnet.

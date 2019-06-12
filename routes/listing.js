@@ -2,7 +2,7 @@ dotify = require('node-dotify');
 
 get = (req, res, next) => {
     var query;
-    if (req.query.name) {
+    if (req.query.kommun) {
         query = req.models.Listing.findOne({ "listing.kommun": req.query.kommun })
     }
     else {

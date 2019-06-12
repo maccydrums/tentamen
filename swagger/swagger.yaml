@@ -11,10 +11,10 @@ servers:
 paths:
   /listings:
     get:
-      summary: Lists all listings
+      summary: List listings
       operationId: listListings
       tags:
-      - listings
+        - listings
       responses:
         '200':
           description: Array of listings
@@ -28,19 +28,117 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a Listing
+      operationId: createListing
+      tags:
+      - listings
+      requestBody:
+        description: the listing to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Listing'
+      responses:
+        '201':
+          description: The created listing
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ResponseListing"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /listings/{listingId}:
+    get:
+      summary: get a listing
+      operationId: getListing
+      tags:
+      - listings
+      parameters:
+      - name: listingId
+        in: path
+        description: listing by id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: the listing
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ResponseListings"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    
+                
+    delete:
+      summary: Delete a Listing
+      operationId: deleteListing
+      tags:
+        - listings
+      parameters:
+      - name: listingId
+        in: path
+        description: listing id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The deleted listing
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ResponseListing"
+        '204':
+          description: No change (nothing was deleted)
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    
 components:
   schemas:
     Listing:
-      type: object
       properties:
-# Add properties for your listings here   
+        listing:
+          properties:
+            kommun:
+              type: string
+            gata:
+              type: string
+            bostadstyp:
+              type: string
+            pris:
+              type: string
+            månadskostnad:
+             type: string
+            budning:
+              type: boolean
+            kordinater:
+              properties:
+                lat:
+                  type: number
+                long:
+                  type: number
     ResponseListing:
       allOf:
       - $ref: "#/components/schemas/Listing"
       - properties:
-          __v:
+          id:
             type: integer
-            format: uint32
           _id:
             type: string
             format: uuid
@@ -50,22 +148,11 @@ components:
         $ref: "#/components/schemas/ResponseListing"
     Error:
       required:
-        - error
+        - code
+        - message
       properties:
-        error:
-          type: object
-          properties:
-            expose:
-              type: bool
-            statusCode:
-              type: integer
-              format: uint32
-            status:
-              type: integer
-              format: uint32
-            body:
-              title: body as escaped json
-              type: string
-            type:
-              title: fault desciption
-              type: string
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

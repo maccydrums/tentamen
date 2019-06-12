@@ -80,6 +80,38 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     
+    patch:
+      summary: Update a Listing
+      operationId: patchListing
+      tags:
+        - listings
+      parameters:
+      - name: listingId
+        in: path
+        description: listing id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: the listing to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Listing'
+      responses:
+        '200':
+          description: The updated post
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ResponsePost"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
                 
     delete:
       summary: Delete a Listing

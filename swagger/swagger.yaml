@@ -15,6 +15,13 @@ paths:
       operationId: listListings
       tags:
         - listings
+      parameters:
+      - name: kommun
+        in: query
+        description: filter by kommun/municipality
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: Array of listings
